@@ -1,28 +1,8 @@
 package dtu.analysis;
 
-import dtu.ProgramGraph;
-import dtu.expressions.Expression;
+import dtu.auxiliary.AnalysisAssignment;
 
-import java.util.ArrayList;
+public abstract class Analysis {
 
-public class Analysis {
-
-    public Analysis()
-    {
-
-    }
-
-    public ArrayList<Expression>generateWorkList(ProgramGraph aProgramGraph)
-    {
-        System.out.println();
-        ArrayList<Expression> result = new ArrayList<>();
-        int selectedNode;
-        boolean finished = false;
-
-        while(!finished)
-        {
-
-        }
-        return result;
-    }
+    public abstract AnalysisAssignment runAnalysis();
 }

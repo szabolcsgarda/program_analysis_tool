@@ -1,4 +1,4 @@
-package dtu;
+package dtu.auxiliary;
 
 public class JSonParser {
 }
