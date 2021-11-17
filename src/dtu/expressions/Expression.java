@@ -1,6 +1,12 @@
 package dtu.expressions;
 
 public class Expression {
+
+    //VARIABLE TYPES
+    public static int VARIABLE_VARIABLE = 0;
+    public static int VARIABLE_ARRAY = 1;
+    public static int VARIABLE_RECORD = 2;
+
     private String mId;
     private String mName;
     private int mStartNode;

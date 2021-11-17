@@ -1,4 +1,4 @@
-package dtu.analysis;
+package dtu.analysisP;
 
 import dtu.auxiliary.AnalysisAssignment;
 

@@ -1,14 +1,13 @@
 package dtu.expressions;
 
-
-public class VariableDeclaration extends Expression {
+public class ReadOperation extends Expression{
 
     private String variableName;
     private int variableType;
 
-    public VariableDeclaration(String aId, String aName, String variableName, int variableType, int startNode, int endNode)
+    public ReadOperation(String aId, String aName, String variableName, int variableType)
     {
-        super(aId, aName, startNode, endNode);
+        super();
         this.variableName = variableName;
         this.variableType = variableType;
     }
@@ -16,4 +15,5 @@ public class VariableDeclaration extends Expression {
     public int getVariableType() { return variableType;}
 
     public String getVariableName() { return variableName;}
+
 }

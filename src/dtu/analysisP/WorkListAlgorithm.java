@@ -1,4 +1,4 @@
-package dtu.analysis;
+package dtu.analysisP;
 
 import dtu.ProgramGraph;
 import dtu.expressions.Expression;
