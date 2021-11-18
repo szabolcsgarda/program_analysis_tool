@@ -6,7 +6,13 @@ import dtu.expressions.Expression;
 import java.util.ArrayList;
 
 public abstract class WorkListAlgorithm {
+    protected ProgramGraph mProgramGraphCopy;
+    protected ArrayList<Integer> mUpdatedWorkList = new ArrayList<>();
 
-    public abstract ArrayList<Expression> generateWorkList(ProgramGraph aProgramGraph);
+    public abstract Expression getNextExpression();
+
+    public abstract void feedbackChangedNodes (ArrayList<Integer> aChangedNodeAssignments);
+
+    public abstract void feedbackChangedNodes (int aChangedNodeAssignment);
 
 }

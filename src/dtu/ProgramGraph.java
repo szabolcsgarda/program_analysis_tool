@@ -1,21 +1,28 @@
 package dtu;
 
+import dtu.analysisP.ReachingDefinitions;
 import dtu.expressions.Expression;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Map;
+import java.util.Queue;
 
-public class ProgramGraph {
-    private HashMap<String, Expression> mExpressions;
+public class ProgramGraph{
+    private Queue<Expression> mExpressions ;
     private String[][] mGraph; //[row/start][column/destination]
 
-    public ProgramGraph(int aNumberOfNodes, HashMap<String, Expression> aExpressions)
+    public ProgramGraph(int aNumberOfNodes, Queue<Expression> aExpressions)
     {
         mGraph = new String[aNumberOfNodes][aNumberOfNodes];
-        mExpressions = new HashMap<>();
-        mExpressions.putAll(aExpressions);
+        mExpressions = aExpressions;
         generateGraph();
+    }
+
+    public ProgramGraph(ProgramGraph aProgramGraph)
+    {
+        mExpressions = aProgramGraph.mExpressions;
+        mGraph = new String[aProgramGraph.mGraph.length][aProgramGraph.mGraph.length];
+        mGraph = aProgramGraph.mGraph;
     }
 
     private void generateGraph()
@@ -30,23 +37,56 @@ public class ProgramGraph {
         }
 
         //Fill graph with expression ID-s
-        Iterator it = mExpressions.entrySet().iterator();
-        while (it.hasNext())
+        for (Iterator<Expression> it = mExpressions.iterator(); it.hasNext();)
         {
-            Map.Entry element = (Map.Entry)it.next();
-            Expression currentExpression = (Expression)element.getValue();
+            Expression currentExpression = it.next();
             mGraph[currentExpression.getStartNode()][currentExpression.getDestinationNode()] = currentExpression.getId();
         }
     }
 
-    public void addExpression(String aExpressionId, Expression aExpression)
+    public void addExpression(Expression aExpression)
     {
-        mExpressions.put(aExpressionId,aExpression);
+        mExpressions.add(aExpression);
         generateGraph();
+    }
+
+    public int getNodeNumber()
+    {
+        return mGraph.length;
     }
 
     public String[][] getProgramGraph()
     {
         return mGraph;
     }
+
+    public ArrayList<Expression> getExpressionsFromNode(int aNode) {
+        ArrayList<Expression> result = new ArrayList<>();
+        for(int i = 0; i < mGraph.length; i++)
+        {
+            if(!mGraph[aNode][i].equals("null"))
+            {
+                result.add(getExpressionById(mGraph[aNode][i]));
+            }
+        }
+        return result;
+    }
+
+    public Expression getExpressionById(String aId) {
+        for (Iterator<Expression> it = mExpressions.iterator(); it.hasNext();)
+        {
+            Expression currentExpression = it.next();
+            if(currentExpression.getId().equals(aId))
+            {
+                return currentExpression;
+            }
+        }
+        return null;
+    }
+
+    public void prettyPrint()
+    {
+
+    }
+
 }

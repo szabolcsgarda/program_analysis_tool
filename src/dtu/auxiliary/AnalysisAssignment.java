@@ -1,6 +1,6 @@
 package dtu.auxiliary;
 
 
-public abstract class AnalysisAssignment {
+public class AnalysisAssignment {
 
 }
