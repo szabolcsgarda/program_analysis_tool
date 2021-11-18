@@ -37,32 +37,38 @@ public class ReachingDefinitions extends Analysis {
     public AnalysisAssignment runAnalysis()
     {
         AnalysisAssignment result = new AnalysisAssignment();
-
         while(true)
         {
+            //HashMap<Integer, HashSet<ReachingDefinitionTriple>> localCopy = new HashMap<Integer, HashSet<ReachingDefinitionTriple>>(reachingDefinitions);
             Expression currentExpression = mWorkListAlgorithm.getNextExpression();
             if(currentExpression == null)
             {
                 break;
             }
-            ArrayList<Integer> feedbackNodes = new ArrayList<>();
+            HashSet<ReachingDefinitionTriple> oldTriples = (HashSet<ReachingDefinitionTriple>)reachingDefinitions.get(currentExpression.getDestinationNode()).clone();
             switch(currentExpression.getClass().getSimpleName()) {
                 case "Assignment":
-                    feedbackNodes = dealWithAssignment((Assignment)currentExpression);
+                    dealWithAssignment((Assignment)currentExpression);
                     break;
                 case "VariableDeclaration":
-                    feedbackNodes = dealWithDeclaration((VariableDeclaration)currentExpression);
+                    dealWithDeclaration((VariableDeclaration)currentExpression);
                     break;
                 case "ReadOperation":
-                    feedbackNodes = dealWithReadOperation((ReadOperation)currentExpression);
+                    dealWithReadOperation((ReadOperation)currentExpression);
                     break;
                 case "BooleanEvaluation":
-                    feedbackNodes = dealWithBooleanEvaluation((BooleanEvaluation)currentExpression);
+                    dealWithBooleanEvaluation((BooleanEvaluation)currentExpression);
                     break;
                 default:
                     break;
             }
-            mWorkListAlgorithm.feedbackChangedNodes(feedbackNodes);
+            prettyPrint();
+            System.out.println("\n");
+
+            if(!oldTriples.equals(reachingDefinitions.get(currentExpression.getDestinationNode())))
+            {
+                mWorkListAlgorithm.feedbackChangedNodes(currentExpression.getDestinationNode());
+            }
         }
         prettyPrint();
         return result;
@@ -95,17 +101,13 @@ public class ReachingDefinitions extends Analysis {
         prettyPrint();
     }
 
-    private ArrayList<Integer> dealWithBooleanEvaluation(BooleanEvaluation currentExpression) {
-        ArrayList<Integer> touchedNodes = new ArrayList<>(); //TODO add which nodes's reaching definition triples have been modified
+    private void dealWithBooleanEvaluation(BooleanEvaluation currentExpression) {
         HashSet<ReachingDefinitionTriple> startStateRD = (HashSet<ReachingDefinitionTriple>)reachingDefinitions.get(currentExpression.getStartNode()).clone();
         reachingDefinitions.get(currentExpression.getDestinationNode()).addAll(startStateRD);
-        touchedNodes.add(currentExpression.getDestinationNode());
-        return touchedNodes;
     }
 
 
-    private ArrayList<Integer> dealWithAssignment(Assignment currentExpression) {
-        ArrayList<Integer> touchedNodes = new ArrayList<>();
+    private void dealWithAssignment(Assignment currentExpression) {
         HashSet<ReachingDefinitionTriple> startStateRD = (HashSet<ReachingDefinitionTriple>)reachingDefinitions.get(currentExpression.getStartNode()).clone();
         if (currentExpression.getVariableType() == Expression.VARIABLE_VARIABLE)
         {
@@ -125,11 +127,9 @@ public class ReachingDefinitions extends Analysis {
         HashSet<ReachingDefinitionTriple> currentStateRD = reachingDefinitions.get(currentExpression.getDestinationNode());
         currentStateRD.addAll(startStateRD);
         //reachingDefinitions.put(currentExpression.getDestinationNode(), currentStateRD);
-        return touchedNodes;
     }
 
-    private ArrayList<Integer> dealWithDeclaration(VariableDeclaration currentExpression) {
-        ArrayList<Integer> touchedNodes = new ArrayList<>();
+    private void dealWithDeclaration(VariableDeclaration currentExpression) {
         HashSet<ReachingDefinitionTriple> startStateRD = reachingDefinitions.get(currentExpression.getStartNode());
 //        startStateRD.add(
 //                new ReachingDefinitionTriple(currentExpression.getVariableName(),
@@ -151,11 +151,9 @@ public class ReachingDefinitions extends Analysis {
                 reachingDefinitions.put(i, currSet);
             }
         }
-        return touchedNodes;
     }
 
-    private ArrayList<Integer> dealWithReadOperation(ReadOperation currentExpression) {
-        ArrayList<Integer> touchedNodes = new ArrayList<>();
+    private void dealWithReadOperation(ReadOperation currentExpression) {
         HashSet<ReachingDefinitionTriple> startStateRD = (HashSet<ReachingDefinitionTriple>)reachingDefinitions.get(currentExpression.getStartNode()).clone();
         if (currentExpression.getVariableType() == Expression.VARIABLE_VARIABLE)
         {
@@ -175,7 +173,6 @@ public class ReachingDefinitions extends Analysis {
         HashSet<ReachingDefinitionTriple> currentStateRD = reachingDefinitions.get(currentExpression.getDestinationNode());
         currentStateRD.addAll(startStateRD);
         //reachingDefinitions.put(currentExpression.getDestinationNode(), currentStateRD);
-        return touchedNodes;
     }
 
     private void prettyPrint()
