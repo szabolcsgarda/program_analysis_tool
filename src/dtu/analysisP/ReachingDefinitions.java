@@ -15,14 +15,6 @@ public class ReachingDefinitions extends Analysis {
     private WorkListAlgorithm mWorkListAlgorithm;
     private ProgramGraph mProgram;
 
-    public ReachingDefinitions(Queue<Expression> expressionQueue, int[] nodes)
-    {
-        this.expressionQueue = expressionQueue;
-        for (int i = 0; i < nodes.length; i++)
-        {
-            reachingDefinitions.put(nodes[i], new HashSet<>());
-        }
-    }
 
     public ReachingDefinitions(ProgramGraph aProgram, WorkListAlgorithm aWorkListAlgorithm)
     {
