@@ -2,6 +2,7 @@ package dtu;
 
 import dtu.analysisP.ChaoticIteration;
 import dtu.analysisP.ReachingDefinitions;
+import dtu.analysisP.RoundRobin;
 import dtu.expressions.Assignment;
 import dtu.expressions.BooleanEvaluation;
 import dtu.expressions.Expression;
@@ -29,8 +30,15 @@ public class Main {
 
 		ProgramGraph mProgramGraph = new ProgramGraph(7, dummyExpressions);
 		ChaoticIteration chaoticIteration = new ChaoticIteration(mProgramGraph);
-		ReachingDefinitions rd = new ReachingDefinitions(mProgramGraph, chaoticIteration);
-		rd.runAnalysis();
+		RoundRobin roundRobin = new RoundRobin(mProgramGraph);
+
+		System.out.println("Using chaotic iteration");
+		ReachingDefinitions rd1 = new ReachingDefinitions(mProgramGraph, chaoticIteration);
+		rd1.runAnalysis();
+
+		System.out.println("Using round robin");
+		ReachingDefinitions rd2 = new ReachingDefinitions(mProgramGraph, roundRobin);
+		rd2.runAnalysis();
 		//reachingDefinitionsTest();
 
     }

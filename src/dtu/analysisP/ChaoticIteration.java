@@ -53,7 +53,6 @@ public class ChaoticIteration extends WorkListAlgorithm {
                 }
             }
         }
-        System.out.println("Selected node: " + mLastSelectedNode);
         //Select and expression from the node expression
         randomEdgeIndex = mRand.nextInt(mUnUsedEdgesOfCurrentNode.size());
 
@@ -66,7 +65,6 @@ public class ChaoticIteration extends WorkListAlgorithm {
             mUpdatedWorkList.remove(mUpdatedWorkList.indexOf(mLastSelectedNode));
             mLastSelectedNode = -1;
         }
-        System.out.println("Selected edge: "+ result.getId());
         return result;
     }
 

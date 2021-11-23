@@ -62,9 +62,6 @@ public class ReachingDefinitions extends Analysis {
                 default:
                     break;
             }
-            prettyPrint();
-            System.out.println("\n");
-
             if(!oldTriples.equals(reachingDefinitions.get(currentExpression.getDestinationNode())))
             {
                 mWorkListAlgorithm.feedbackChangedNodes(currentExpression.getDestinationNode());
