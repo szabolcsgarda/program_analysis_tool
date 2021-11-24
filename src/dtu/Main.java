@@ -1,6 +1,7 @@
 package dtu;
 
 import dtu.analysisP.ChaoticIteration;
+import dtu.analysisP.LiveVariables;
 import dtu.analysisP.ReachingDefinitions;
 import dtu.expressions.Assignment;
 import dtu.expressions.BooleanEvaluation;
@@ -26,8 +27,11 @@ public class Main {
 
 		ProgramGraph mProgramGraph = new ProgramGraph(7, dummyExpressions);
 		ChaoticIteration chaoticIteration = new ChaoticIteration(mProgramGraph);
-		ReachingDefinitions rd = new ReachingDefinitions(mProgramGraph, chaoticIteration);
-		rd.runAnalysis();
+//		ReachingDefinitions rd = new ReachingDefinitions(mProgramGraph, chaoticIteration);
+//		rd.runAnalysis();
+
+		LiveVariables lv = new LiveVariables(mProgramGraph, chaoticIteration);
+		lv.runAnalysis();
 		//reachingDefinitionsTest();
 
     }
