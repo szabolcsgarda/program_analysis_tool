@@ -1,6 +1,7 @@
 package dtu;
 
-import dtu.analysisP.*;
+import dtu.analysisP.ChaoticIteration;
+import dtu.analysisP.ReachingDefinitions;
 import dtu.expressions.Assignment;
 import dtu.expressions.BooleanEvaluation;
 import dtu.expressions.Expression;
@@ -16,6 +17,7 @@ public class Main {
 	{
 		System.out.println("Initialization in progress");
 		//TODO: Place decent graph builder here
+
 		Queue<Expression> dummyExpressions = new ArrayDeque<>();
 		dummyExpressions.add(new Assignment("edge1","", "x", Expression.VARIABLE_VARIABLE, 0, 1));
 		dummyExpressions.add(new Assignment("edge2","", "y", Expression.VARIABLE_VARIABLE, 1, 2));
@@ -63,36 +65,33 @@ public class Main {
 		System.out.println("Execution time:" + (endTime-startTime) + " [ms]");
 		//reachingDefinitionsTest();
 
-		//DFS test
-		DFS dfs = new DFS(mProgramGraph);
-		dfs.run();
     }
 
-	private static void reachingDefinitionsTest() {
-		int[] nodes = {0, 1, 2, 3, 4, 5, 6};
-		Queue<Expression> expressions = new ArrayDeque<>();
-		expressions.add(new Assignment("","", "x", Expression.VARIABLE_VARIABLE, 0, 1));
-		expressions.add(new Assignment("","", "x", Expression.VARIABLE_VARIABLE, 0, 1));
-		expressions.add(new Assignment("","", "y", Expression.VARIABLE_VARIABLE, 1, 2));
-		expressions.add(new BooleanEvaluation("","", 2, 3));
-		expressions.add(new BooleanEvaluation("","", 2, 4));
-		expressions.add(new Assignment("","", "x", Expression.VARIABLE_VARIABLE, 3, 6));
-		expressions.add(new Assignment("","", "y", Expression.VARIABLE_VARIABLE, 4, 5));
-		expressions.add(new Assignment("","", "x", Expression.VARIABLE_VARIABLE, 5, 2));
-		expressions.add(new Assignment("","", "y", Expression.VARIABLE_VARIABLE, 1, 2));
-		expressions.add(new BooleanEvaluation("","", 2, 3));
-		expressions.add(new BooleanEvaluation("","", 2, 4));
-		expressions.add(new Assignment("","", "x", Expression.VARIABLE_VARIABLE, 3, 6));
-		expressions.add(new Assignment("","", "y", Expression.VARIABLE_VARIABLE, 4, 5));
-		expressions.add(new Assignment("","", "x", Expression.VARIABLE_VARIABLE, 5, 2));
-		expressions.add(new BooleanEvaluation("","", 2, 3));
-		expressions.add(new BooleanEvaluation("","", 2, 4));
-		expressions.add(new Assignment("","", "x", Expression.VARIABLE_VARIABLE, 3, 6));
-		expressions.add(new Assignment("","", "y", Expression.VARIABLE_VARIABLE, 4, 5));
-		expressions.add(new Assignment("","", "x", Expression.VARIABLE_VARIABLE, 5, 2));
-		expressions.add(new VariableDeclaration("","", "x", Expression.VARIABLE_VARIABLE, 0, 0));
-		expressions.add(new VariableDeclaration("","", "y", Expression.VARIABLE_VARIABLE, 0, 0));
-		ReachingDefinitions rd = new ReachingDefinitions(expressions, nodes);
-		rd.run();
-	}
+//	private static void reachingDefinitionsTest() {
+//		int[] nodes = {0, 1, 2, 3, 4, 5, 6};
+//		Queue<Expression> expressions = new ArrayDeque<>();
+//		expressions.add(new Assignment("","", "x", Expression.VARIABLE_VARIABLE, 0, 1));
+//		expressions.add(new Assignment("","", "x", Expression.VARIABLE_VARIABLE, 0, 1));
+//		expressions.add(new Assignment("","", "y", Expression.VARIABLE_VARIABLE, 1, 2));
+//		expressions.add(new BooleanEvaluation("","", 2, 3));
+//		expressions.add(new BooleanEvaluation("","", 2, 4));
+//		expressions.add(new Assignment("","", "x", Expression.VARIABLE_VARIABLE, 3, 6));
+//		expressions.add(new Assignment("","", "y", Expression.VARIABLE_VARIABLE, 4, 5));
+//		expressions.add(new Assignment("","", "x", Expression.VARIABLE_VARIABLE, 5, 2));
+//		expressions.add(new Assignment("","", "y", Expression.VARIABLE_VARIABLE, 1, 2));
+//		expressions.add(new BooleanEvaluation("","", 2, 3));
+//		expressions.add(new BooleanEvaluation("","", 2, 4));
+//		expressions.add(new Assignment("","", "x", Expression.VARIABLE_VARIABLE, 3, 6));
+//		expressions.add(new Assignment("","", "y", Expression.VARIABLE_VARIABLE, 4, 5));
+//		expressions.add(new Assignment("","", "x", Expression.VARIABLE_VARIABLE, 5, 2));
+//		expressions.add(new BooleanEvaluation("","", 2, 3));
+//		expressions.add(new BooleanEvaluation("","", 2, 4));
+//		expressions.add(new Assignment("","", "x", Expression.VARIABLE_VARIABLE, 3, 6));
+//		expressions.add(new Assignment("","", "y", Expression.VARIABLE_VARIABLE, 4, 5));
+//		expressions.add(new Assignment("","", "x", Expression.VARIABLE_VARIABLE, 5, 2));
+//		expressions.add(new VariableDeclaration("","", "x", Expression.VARIABLE_VARIABLE, 0, 0));
+//		expressions.add(new VariableDeclaration("","", "y", Expression.VARIABLE_VARIABLE, 0, 0));
+//		ReachingDefinitions rd = new ReachingDefinitions(expressions, nodes);
+//		rd.run();
+//	}
 }
