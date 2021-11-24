@@ -54,8 +54,6 @@ public class LiveVariables extends Analysis {
                 default:
                     break;
             }
-            prettyPrint();
-            System.out.println("\n");
 
             if(!oldLiveVariables.equals(liveVariables.get(currentExpression.getStartNode())))
             {
@@ -64,33 +62,6 @@ public class LiveVariables extends Analysis {
         }
         prettyPrint();
         return result;
-    }
-
-    public void run()
-    {
-        //AnalysisAssignment result = new SetOfTriples();
-
-        while (!expressionQueue.isEmpty())
-        {
-            Expression currentExpression = expressionQueue.poll();
-            switch(currentExpression.getClass().getSimpleName()) {
-                case "Assignment":
-                    dealWithAssignment((Assignment)currentExpression);
-                    break;
-                case "VariableDeclaration":
-                    dealWithDeclaration((VariableDeclaration)currentExpression);
-                    break;
-                case "ReadOperation":
-                    dealWithReadOperation((ReadOperation)currentExpression);
-                    break;
-                case "BooleanEvaluation":
-                    dealWithBooleanEvaluation((BooleanEvaluation)currentExpression);
-                    break;
-                default:
-                    break;
-            }
-        }
-        prettyPrint();
     }
 
     private void dealWithBooleanEvaluation(BooleanEvaluation currentExpression) {
