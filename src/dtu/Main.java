@@ -1,9 +1,6 @@
 package dtu;
 
-import dtu.analysisP.ChaoticIteration;
-import dtu.analysisP.ReachingDefinitions;
-import dtu.analysisP.RoundRobin;
-import dtu.analysisP.SimpleWorklist;
+import dtu.analysisP.*;
 import dtu.expressions.Assignment;
 import dtu.expressions.BooleanEvaluation;
 import dtu.expressions.Expression;
@@ -65,6 +62,10 @@ public class Main {
 		endTime = System.currentTimeMillis();
 		System.out.println("Execution time:" + (endTime-startTime) + " [ms]");
 		//reachingDefinitionsTest();
+
+		//DFS test
+		DFS dfs = new DFS(mProgramGraph);
+		dfs.run();
     }
 
 	private static void reachingDefinitionsTest() {

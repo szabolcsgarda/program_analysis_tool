@@ -5,20 +5,28 @@ import dtu.expressions.Expression;
 import dtu.expressions.ReadOperation;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class RoundRobin extends WorkListAlgorithm {
     private boolean mNewRoundNeeded;
     private ArrayList<Expression> mUnUsedEdgesOfCurrentNode; //Contains the unused edges of mLastSelectedNode
+    private HashMap<Integer, Integer> mRPIndexing;
+    DFS mDfs;
 
     public RoundRobin(ProgramGraph aProgramGraph)
     {
         mNewRoundNeeded = true;
         mUnUsedEdgesOfCurrentNode = new ArrayList<>();
+        mRPIndexing = new HashMap<>();
         mProgramGraphCopy = new ProgramGraph(aProgramGraph);
+        mDfs = new DFS(mProgramGraphCopy);
+
         for(int i = 0; i < mProgramGraphCopy.getNodeNumber(); i++)
         {
             mUpdatedWorkList.add(i);
         }
+        mDfs.run();
+        mRPIndexing = mDfs.getRP();
     }
 
     @Override
@@ -49,7 +57,8 @@ public class RoundRobin extends WorkListAlgorithm {
                 //Selecting the next node if the worklist is not empty
                 if(mUpdatedWorkList.size() > 0)
                 {
-                    currentNode = mUpdatedWorkList.remove(0);
+                    //currentNode = mUpdatedWorkList.remove(0);
+                    currentNode = mUpdatedWorkList.remove(getNextNodeFromRP(mRPIndexing, mUpdatedWorkList));
                     mUnUsedEdgesOfCurrentNode.addAll(mProgramGraphCopy.getExpressionsFromNode(currentNode));
                     if(mUnUsedEdgesOfCurrentNode.size() > 0)
                     {
@@ -77,5 +86,18 @@ public class RoundRobin extends WorkListAlgorithm {
     public void empty ()
     {
 
+    }
+
+    private int getNextNodeFromRP(HashMap<Integer, Integer> aRPIndexing, ArrayList<Integer> aWorklist)
+    {
+        int result = 0;
+        for(int i = 0; i < aWorklist.size(); i++)
+        {
+            if(aRPIndexing.get(aWorklist.get(i)) < aRPIndexing.get(aWorklist.get(result)))
+            {
+                result = i;
+            }
+        }
+        return result;
     }
 }
