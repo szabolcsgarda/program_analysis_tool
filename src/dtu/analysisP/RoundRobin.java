@@ -68,14 +68,14 @@ public class RoundRobin extends WorkListAlgorithm {
     }
 
     @Override
-    public void feedbackChangedNodes (ArrayList<Integer> aChangedNodeAssignments)
+    public void feedbackChangedNodes (int aChangedNodeAssignment)
     {
         mNewRoundNeeded = true;
     }
 
     @Override
-    public void feedbackChangedNodes (int aChangedNodeAssignment)
+    public void empty ()
     {
-        mNewRoundNeeded = true;
+
     }
 }

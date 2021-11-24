@@ -3,6 +3,7 @@ package dtu;
 import dtu.analysisP.ChaoticIteration;
 import dtu.analysisP.ReachingDefinitions;
 import dtu.analysisP.RoundRobin;
+import dtu.analysisP.SimpleWorklist;
 import dtu.expressions.Assignment;
 import dtu.expressions.BooleanEvaluation;
 import dtu.expressions.Expression;
@@ -18,7 +19,6 @@ public class Main {
 	{
 		System.out.println("Initialization in progress");
 		//TODO: Place decent graph builder here
-
 		Queue<Expression> dummyExpressions = new ArrayDeque<>();
 		dummyExpressions.add(new Assignment("edge1","", "x", Expression.VARIABLE_VARIABLE, 0, 1));
 		dummyExpressions.add(new Assignment("edge2","", "y", Expression.VARIABLE_VARIABLE, 1, 2));
@@ -31,16 +31,40 @@ public class Main {
 		ProgramGraph mProgramGraph = new ProgramGraph(7, dummyExpressions);
 		ChaoticIteration chaoticIteration = new ChaoticIteration(mProgramGraph);
 		RoundRobin roundRobin = new RoundRobin(mProgramGraph);
+		SimpleWorklist firstInFirstOut = new SimpleWorklist(mProgramGraph, 0);
+		SimpleWorklist lastInFirstOut = new SimpleWorklist(mProgramGraph, 1);
 
+		long startTime;
+		long endTime;
 		System.out.println("Using chaotic iteration");
 		ReachingDefinitions rd1 = new ReachingDefinitions(mProgramGraph, chaoticIteration);
+		startTime = System.currentTimeMillis();
 		rd1.runAnalysis();
+		endTime = System.currentTimeMillis();
+		System.out.println("Execution time:" + (endTime-startTime) + " [ms]");
+
 
 		System.out.println("Using round robin");
 		ReachingDefinitions rd2 = new ReachingDefinitions(mProgramGraph, roundRobin);
+		startTime = System.currentTimeMillis();
 		rd2.runAnalysis();
-		//reachingDefinitionsTest();
+		endTime = System.currentTimeMillis();
+		System.out.println("Execution time:" + (endTime-startTime) + " [ms]");
 
+		System.out.println("Using FiFo WL");
+		ReachingDefinitions rd3 = new ReachingDefinitions(mProgramGraph, firstInFirstOut);
+		startTime = System.currentTimeMillis();
+		rd3.runAnalysis();
+		endTime = System.currentTimeMillis();
+		System.out.println("Execution time:" + (endTime-startTime) + " [ms]");
+
+		System.out.println("Using LIFO WL");
+		ReachingDefinitions rd4 = new ReachingDefinitions(mProgramGraph, lastInFirstOut);
+		startTime = System.currentTimeMillis();
+		rd4.runAnalysis();
+		endTime = System.currentTimeMillis();
+		System.out.println("Execution time:" + (endTime-startTime) + " [ms]");
+		//reachingDefinitionsTest();
     }
 
 	private static void reachingDefinitionsTest() {

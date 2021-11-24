@@ -9,10 +9,11 @@ public abstract class WorkListAlgorithm {
     protected ProgramGraph mProgramGraphCopy;
     protected ArrayList<Integer> mUpdatedWorkList = new ArrayList<>();
 
+    //called "extract" function in scientific papers
     public abstract Expression getNextExpression();
 
-    public abstract void feedbackChangedNodes (ArrayList<Integer> aChangedNodeAssignments);
-
+    //called "insert" function in scientific papers
     public abstract void feedbackChangedNodes (int aChangedNodeAssignment);
 
+    public abstract void empty();
 }

@@ -4,19 +4,23 @@ import dtu.ProgramGraph;
 import dtu.expressions.Expression;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Random;
 
-public class ChaoticIteration extends WorkListAlgorithm {
-    private Random mRand = new Random();
-    private int mLastSelectedNode; //-1 if we can go for the another node
+public class SimpleWorklist extends WorkListAlgorithm{
+
+    //SimpleWorklist Settings
+    public static final int FIRST_IN_FIRST_OUT = 0;
+    public static final int LAST_IN_FIRST_OUT = 1;
+
+    private int mOutputSetting;
+    private int mLastSelectedNode;
     private ArrayList<Expression> mUnUsedEdgesOfCurrentNode; //Contains the unused edges of mLastSelectedNode
 
-    public ChaoticIteration(ProgramGraph aProgramGraph)
+    public SimpleWorklist(ProgramGraph aProgramGraph, int aOutputSetting)
     {
+        mProgramGraphCopy = new ProgramGraph(aProgramGraph);
+        mOutputSetting = aOutputSetting;
         mLastSelectedNode = -1;
         mUnUsedEdgesOfCurrentNode = new ArrayList<>();
-        mProgramGraphCopy = new ProgramGraph(aProgramGraph);
         for(int i = 0; i < mProgramGraphCopy.getNodeNumber(); i++)
         {
             mUpdatedWorkList.add(i);
@@ -26,12 +30,14 @@ public class ChaoticIteration extends WorkListAlgorithm {
     @Override
     public Expression getNextExpression()
     {
-        //Set up currentNode
-        int randomNodeIndex = 0; // index of the selected node
-        int randomEdgeIndex = 0; // index of the selected edge
+        Expression result = null;
+        //int selectedNode = 0;
+        int selectedEdge = 0;
+        boolean validNode = false;
+
+        //Select the next edge if there is no unhandled edge from the last node
         if(mLastSelectedNode == -1)
         {
-            boolean validNode = false; //The selected node is invalid if no edge starts from there
             while(!validNode)
             {
                 //If the worklist is empty
@@ -40,8 +46,16 @@ public class ChaoticIteration extends WorkListAlgorithm {
                     return null;
                 }
 
-                randomNodeIndex = mRand.nextInt(mUpdatedWorkList.size());
-                mLastSelectedNode = mUpdatedWorkList.get(randomNodeIndex);
+                switch (mOutputSetting)
+                {
+                    case FIRST_IN_FIRST_OUT:
+                        mLastSelectedNode = mUpdatedWorkList.get(0);
+                        break;
+
+                    case LAST_IN_FIRST_OUT:
+                        mLastSelectedNode = mUpdatedWorkList.get(mUpdatedWorkList.size()-1);
+                        break;
+                }
                 mUnUsedEdgesOfCurrentNode = mProgramGraphCopy.getExpressionsFromNode(mLastSelectedNode);
                 if(mUnUsedEdgesOfCurrentNode.size() > 0)
                 {
@@ -49,17 +63,13 @@ public class ChaoticIteration extends WorkListAlgorithm {
                 }
                 else
                 {
-                    mUpdatedWorkList.remove(randomNodeIndex);
+                    mUpdatedWorkList.remove(mUpdatedWorkList.indexOf(mLastSelectedNode));
                 }
             }
         }
+
         //Select and expression from the node expressions
-        randomEdgeIndex = mRand.nextInt(mUnUsedEdgesOfCurrentNode.size());
-
-        Expression result = mUnUsedEdgesOfCurrentNode.get(randomEdgeIndex);
-
-        //Update class variables
-        mUnUsedEdgesOfCurrentNode.remove(randomEdgeIndex);
+        result = mUnUsedEdgesOfCurrentNode.remove(0);
         if(mUnUsedEdgesOfCurrentNode.size() == 0)
         {
             mUpdatedWorkList.remove(mUpdatedWorkList.indexOf(mLastSelectedNode));
@@ -78,7 +88,7 @@ public class ChaoticIteration extends WorkListAlgorithm {
     }
 
     @Override
-    public void empty ()
+    public void empty()
     {
 
     }
