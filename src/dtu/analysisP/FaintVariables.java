@@ -7,22 +7,22 @@ import dtu.expressions.*;
 
 import java.util.*;
 
-public class LiveVariables extends Analysis {
+public class FaintVariables extends Analysis {
 
     private Queue<Expression> expressionQueue;
-    private HashMap<Integer, HashSet<String>> liveVariables = new HashMap<>();
+    private HashMap<Integer, HashSet<String>> faintVariables = new HashMap<>();
 
     private WorkListAlgorithm mWorkListAlgorithm;
     private ProgramGraph mProgram;
 
 
-    public LiveVariables(ProgramGraph aProgram, WorkListAlgorithm aWorkListAlgorithm)
+    public FaintVariables(ProgramGraph aProgram, WorkListAlgorithm aWorkListAlgorithm)
     {
         mWorkListAlgorithm = aWorkListAlgorithm;
         mProgram = aProgram;
         for (int i = 0; i < mProgram.getNodeNumber(); i++)
         {
-            liveVariables.put(i, new HashSet<>());
+            faintVariables.put(i, new HashSet<>());
         }
     }
 
@@ -37,7 +37,7 @@ public class LiveVariables extends Analysis {
             {
                 break;
             }
-            HashSet<String> oldLiveVariables = (HashSet<String>)liveVariables.get(currentExpression.getStartNode()).clone();
+            HashSet<String> oldFaintVariables = (HashSet<String>) faintVariables.get(currentExpression.getStartNode()).clone();
             switch(currentExpression.getClass().getSimpleName()) {
                 case "Assignment":
                     dealWithAssignment((Assignment)currentExpression);
@@ -55,7 +55,7 @@ public class LiveVariables extends Analysis {
                     break;
             }
 
-            if(!oldLiveVariables.equals(liveVariables.get(currentExpression.getStartNode())))
+            if(!oldFaintVariables.equals(faintVariables.get(currentExpression.getStartNode())))
             {
                 mWorkListAlgorithm.feedbackChangedNodes(currentExpression.getStartNode());
             }
@@ -65,53 +65,56 @@ public class LiveVariables extends Analysis {
     }
 
     private void dealWithBooleanEvaluation(BooleanEvaluation currentExpression) {
-        HashSet<String> startStateLV = (HashSet<String>)liveVariables.get(currentExpression.getDestinationNode()).clone();
-        startStateLV.addAll(currentExpression.getUsedVariables());
-        liveVariables.get(currentExpression.getStartNode()).addAll(startStateLV);
+        HashSet<String> startStateFV = (HashSet<String>) faintVariables.get(currentExpression.getDestinationNode()).clone();
+        startStateFV.addAll(currentExpression.getUsedVariables());
+        faintVariables.get(currentExpression.getStartNode()).addAll(startStateFV);
     }
 
 
     private void dealWithAssignment(Assignment currentExpression) {
-        HashSet<String> startStateLV = (HashSet<String>)liveVariables.get(currentExpression.getDestinationNode()).clone();
+        HashSet<String> startStateFV = (HashSet<String>) faintVariables.get(currentExpression.getDestinationNode()).clone();
+        boolean assigningToLiveVariable = startStateFV.contains(currentExpression.getVariableName());
         if (currentExpression.getVariableType() == Expression.VARIABLE_VARIABLE)
         {
             //kill function
-            for (Iterator<String> i = startStateLV.iterator(); i.hasNext();)
+            for (Iterator<String> i = startStateFV.iterator(); i.hasNext();)
             {
                 String variableName = i.next();
                 if (variableName == currentExpression.getVariableName())
                     i.remove();
             }
         }
-        startStateLV.addAll(
+        if (assigningToLiveVariable)
+            startStateFV.addAll(
                 currentExpression.getUsedVariables()); //for arrays used variable already includes the accessed index
-        liveVariables.get(currentExpression.getStartNode()).addAll(startStateLV);
+        faintVariables.get(currentExpression.getStartNode()).addAll(startStateFV);
     }
 
     private void dealWithDeclaration(VariableDeclaration currentExpression) {
-        HashSet<String> startStateLV = liveVariables.get(currentExpression.getDestinationNode());
-        liveVariables.get(currentExpression.getStartNode()).addAll(startStateLV);
+        HashSet<String> startStateFV = faintVariables.get(currentExpression.getDestinationNode());
+        faintVariables.get(currentExpression.getStartNode()).addAll(startStateFV);
     }
 
     private void dealWithReadOperation(ReadOperation currentExpression) {
-        HashSet<String> startStateLV = (HashSet<String>)liveVariables.get(currentExpression.getStartNode()).clone();
+        HashSet<String> startStateFV = (HashSet<String>) faintVariables.get(currentExpression.getStartNode()).clone();
+        boolean assigningToLiveVariable = startStateFV.contains(currentExpression.getVariableName());
         if (currentExpression.getVariableType() == Expression.VARIABLE_VARIABLE)
         {
             //kill function
-            for (Iterator<String> i = startStateLV.iterator(); i.hasNext();)
+            for (Iterator<String> i = startStateFV.iterator(); i.hasNext();)
             {
                 String variableName = i.next();
                 if (variableName == currentExpression.getVariableName())
                     i.remove();
             }
         } else if (currentExpression.getVariableType() == Expression.VARIABLE_ARRAY)
-            startStateLV.addAll(currentExpression.getUsedVariables());
-        liveVariables.get(currentExpression.getStartNode()).addAll(startStateLV);
+            if (assigningToLiveVariable) startStateFV.addAll(currentExpression.getUsedVariables());
+        faintVariables.get(currentExpression.getStartNode()).addAll(startStateFV);
     }
 
     private void prettyPrint()
     {
-        for (Map.Entry<Integer, HashSet<String>> entry: this.liveVariables.entrySet())
+        for (Map.Entry<Integer, HashSet<String>> entry: this.faintVariables.entrySet())
         {
             StringBuilder l = new StringBuilder("Node: " + entry.getKey().toString() + "     LV: ");
             for (String variable: entry.getValue())
