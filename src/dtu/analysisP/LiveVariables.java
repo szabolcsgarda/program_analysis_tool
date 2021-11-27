@@ -49,7 +49,7 @@ public class LiveVariables extends Analysis {
                     dealWithReadOperation((ReadOperation)currentExpression);
                     break;
                 case "BooleanEvaluation":
-                    dealWithBooleanEvaluation((BooleanEvaluation)currentExpression);
+                    dealWithBooleanEvaluation((BooleanExpression)currentExpression);
                     break;
                 default:
                     break;
@@ -64,7 +64,7 @@ public class LiveVariables extends Analysis {
         return result;
     }
 
-    private void dealWithBooleanEvaluation(BooleanEvaluation currentExpression) {
+    private void dealWithBooleanEvaluation(BooleanExpression currentExpression) {
         HashSet<String> startStateLV = (HashSet<String>)liveVariables.get(currentExpression.getDestinationNode()).clone();
         startStateLV.addAll(currentExpression.getUsedVariables());
         liveVariables.get(currentExpression.getStartNode()).addAll(startStateLV);

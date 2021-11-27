@@ -49,7 +49,7 @@ public class FaintVariables extends Analysis {
                     dealWithReadOperation((ReadOperation)currentExpression);
                     break;
                 case "BooleanEvaluation":
-                    dealWithBooleanEvaluation((BooleanEvaluation)currentExpression);
+                    dealWithBooleanEvaluation((BooleanExpression)currentExpression);
                     break;
                 default:
                     break;
@@ -64,7 +64,7 @@ public class FaintVariables extends Analysis {
         return result;
     }
 
-    private void dealWithBooleanEvaluation(BooleanEvaluation currentExpression) {
+    private void dealWithBooleanEvaluation(BooleanExpression currentExpression) {
         HashSet<String> startStateFV = (HashSet<String>) faintVariables.get(currentExpression.getDestinationNode()).clone();
         startStateFV.addAll(currentExpression.getUsedVariables());
         faintVariables.get(currentExpression.getStartNode()).addAll(startStateFV);

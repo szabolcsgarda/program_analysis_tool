@@ -49,7 +49,7 @@ public class ReachingDefinitions extends Analysis {
                     dealWithReadOperation((ReadOperation)currentExpression);
                     break;
                 case "BooleanEvaluation":
-                    dealWithBooleanEvaluation((BooleanEvaluation)currentExpression);
+                    dealWithBooleanEvaluation((BooleanExpression)currentExpression);
                     break;
                 default:
                     break;
@@ -81,7 +81,7 @@ public class ReachingDefinitions extends Analysis {
                     dealWithReadOperation((ReadOperation)currentExpression);
                     break;
                 case "BooleanEvaluation":
-                    dealWithBooleanEvaluation((BooleanEvaluation)currentExpression);
+                    dealWithBooleanEvaluation((BooleanExpression)currentExpression);
                     break;
                 default:
                     break;
@@ -90,7 +90,7 @@ public class ReachingDefinitions extends Analysis {
         prettyPrint();
     }
 
-    private void dealWithBooleanEvaluation(BooleanEvaluation currentExpression) {
+    private void dealWithBooleanEvaluation(BooleanExpression currentExpression) {
         HashSet<ReachingDefinitionTriple> startStateRD = (HashSet<ReachingDefinitionTriple>)reachingDefinitions.get(currentExpression.getStartNode()).clone();
         reachingDefinitions.get(currentExpression.getDestinationNode()).addAll(startStateRD);
     }
