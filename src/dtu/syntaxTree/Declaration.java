@@ -1,10 +1,15 @@
 package dtu.syntaxTree;
 
 public class Declaration extends Statement{
-    String variableName;
+    private Variable variable;
 
-    public Declaration(String variableName)
+    public Declaration(Variable variable)
     {
-        this.variableName = variableName;
+        this.variable = variable;
+    }
+
+    public Variable getVariable()
+    {
+        return variable;
     }
 }

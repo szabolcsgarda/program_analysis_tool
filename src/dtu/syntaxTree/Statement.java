@@ -1,4 +1,4 @@
 package dtu.syntaxTree;
 
-public class Statement {
+public abstract class Statement {
 }

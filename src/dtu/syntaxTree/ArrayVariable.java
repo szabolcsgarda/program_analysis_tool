@@ -1,5 +1,7 @@
 package dtu.syntaxTree;
 
+import dtu.expressions.Expression;
+
 public class ArrayVariable extends Variable {
     public int length;
 
@@ -8,4 +10,6 @@ public class ArrayVariable extends Variable {
         super(variableName);
         this.length = length;
     }
+
+    public int getVariableType(){return Expression.VARIABLE_ARRAY;}
 }

@@ -40,7 +40,7 @@ public class FaintVariables extends Analysis {
             HashSet<String> oldFaintVariables = (HashSet<String>) faintVariables.get(currentExpression.getStartNode()).clone();
             switch(currentExpression.getClass().getSimpleName()) {
                 case "Assignment":
-                    dealWithAssignment((Assignment)currentExpression);
+                    dealWithAssignment((AssignmentExpression)currentExpression);
                     break;
                 case "VariableDeclaration":
                     dealWithDeclaration((VariableDeclaration)currentExpression);
@@ -66,12 +66,12 @@ public class FaintVariables extends Analysis {
 
     private void dealWithBooleanEvaluation(BooleanExpression currentExpression) {
         HashSet<String> startStateFV = (HashSet<String>) faintVariables.get(currentExpression.getDestinationNode()).clone();
-        startStateFV.addAll(currentExpression.getUsedVariables());
+        currentExpression.getUsedVariables().forEach(x -> startStateFV.add(x.getVariableName()));
         faintVariables.get(currentExpression.getStartNode()).addAll(startStateFV);
     }
 
 
-    private void dealWithAssignment(Assignment currentExpression) {
+    private void dealWithAssignment(AssignmentExpression currentExpression) {
         HashSet<String> startStateFV = (HashSet<String>) faintVariables.get(currentExpression.getDestinationNode()).clone();
         boolean assigningToLiveVariable = startStateFV.contains(currentExpression.getVariableName());
         if (currentExpression.getVariableType() == Expression.VARIABLE_VARIABLE)
@@ -85,8 +85,7 @@ public class FaintVariables extends Analysis {
             }
         }
         if (assigningToLiveVariable)
-            startStateFV.addAll(
-                currentExpression.getUsedVariables()); //for arrays used variable already includes the accessed index
+            currentExpression.getUsedVariables().forEach(x -> startStateFV.add(x.getVariableName())); //for arrays used variable already includes the accessed index
         faintVariables.get(currentExpression.getStartNode()).addAll(startStateFV);
     }
 
@@ -97,18 +96,18 @@ public class FaintVariables extends Analysis {
 
     private void dealWithReadOperation(ReadOperation currentExpression) {
         HashSet<String> startStateFV = (HashSet<String>) faintVariables.get(currentExpression.getStartNode()).clone();
-        boolean assigningToLiveVariable = startStateFV.contains(currentExpression.getVariableName());
+        boolean assigningToLiveVariable = startStateFV.contains(currentExpression.getVariable().getVariableName());
         if (currentExpression.getVariableType() == Expression.VARIABLE_VARIABLE)
         {
             //kill function
             for (Iterator<String> i = startStateFV.iterator(); i.hasNext();)
             {
                 String variableName = i.next();
-                if (variableName == currentExpression.getVariableName())
+                if (variableName == currentExpression.getVariable().getVariableName())
                     i.remove();
             }
         } else if (currentExpression.getVariableType() == Expression.VARIABLE_ARRAY)
-            if (assigningToLiveVariable) startStateFV.addAll(currentExpression.getUsedVariables());
+            if (assigningToLiveVariable) currentExpression.getUsedVariables().forEach(x -> startStateFV.add(x.getVariableName()));
         faintVariables.get(currentExpression.getStartNode()).addAll(startStateFV);
     }
 

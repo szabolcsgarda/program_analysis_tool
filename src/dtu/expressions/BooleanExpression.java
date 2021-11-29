@@ -1,16 +1,19 @@
 package dtu.expressions;
 
+import dtu.syntaxTree.BooleanEvaluation;
+import dtu.syntaxTree.Variable;
+
 import java.util.HashSet;
 
 public class BooleanExpression extends Expression{
 
-    private HashSet<String> usedVariables;
+    private BooleanEvaluation evaluation;
 
-    public BooleanExpression(String aId, String aName, int startNode, int endNode, HashSet<String> usedVariables)
+    public BooleanExpression(String aId, String aName, int startNode, int endNode, BooleanEvaluation evaluation)
     {
         super(aId, aName, startNode, endNode);
-        this.usedVariables = usedVariables;
+        this.evaluation = evaluation;
     }
 
-    public HashSet<String> getUsedVariables(){ return usedVariables;}
+    public HashSet<Variable> getUsedVariables(){ return evaluation.getUsedVariables();}
 }

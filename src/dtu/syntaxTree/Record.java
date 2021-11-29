@@ -1,5 +1,7 @@
 package dtu.syntaxTree;
 
+import dtu.expressions.Expression;
+
 public class Record extends Variable{
     public int fst;
     public int snd;
@@ -10,4 +12,7 @@ public class Record extends Variable{
         this.fst = fst;
         this.snd = snd;
     }
+
+    @Override
+    public int getVariableType() {return Expression.VARIABLE_RECORD;}
 }

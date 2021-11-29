@@ -40,7 +40,7 @@ public class LiveVariables extends Analysis {
             HashSet<String> oldLiveVariables = (HashSet<String>)liveVariables.get(currentExpression.getStartNode()).clone();
             switch(currentExpression.getClass().getSimpleName()) {
                 case "Assignment":
-                    dealWithAssignment((Assignment)currentExpression);
+                    dealWithAssignment((AssignmentExpression)currentExpression);
                     break;
                 case "VariableDeclaration":
                     dealWithDeclaration((VariableDeclaration)currentExpression);
@@ -66,12 +66,12 @@ public class LiveVariables extends Analysis {
 
     private void dealWithBooleanEvaluation(BooleanExpression currentExpression) {
         HashSet<String> startStateLV = (HashSet<String>)liveVariables.get(currentExpression.getDestinationNode()).clone();
-        startStateLV.addAll(currentExpression.getUsedVariables());
+        currentExpression.getUsedVariables().forEach(x -> startStateLV.add(x.getVariableName()));
         liveVariables.get(currentExpression.getStartNode()).addAll(startStateLV);
     }
 
 
-    private void dealWithAssignment(Assignment currentExpression) {
+    private void dealWithAssignment(AssignmentExpression currentExpression) {
         HashSet<String> startStateLV = (HashSet<String>)liveVariables.get(currentExpression.getDestinationNode()).clone();
         if (currentExpression.getVariableType() == Expression.VARIABLE_VARIABLE)
         {
@@ -83,8 +83,7 @@ public class LiveVariables extends Analysis {
                     i.remove();
             }
         }
-        startStateLV.addAll(
-                currentExpression.getUsedVariables()); //for arrays used variable already includes the accessed index
+        currentExpression.getUsedVariables().forEach(x -> startStateLV.add(x.getVariableName())); //for arrays used variable already includes the accessed index
         liveVariables.get(currentExpression.getStartNode()).addAll(startStateLV);
     }
 
@@ -101,11 +100,11 @@ public class LiveVariables extends Analysis {
             for (Iterator<String> i = startStateLV.iterator(); i.hasNext();)
             {
                 String variableName = i.next();
-                if (variableName == currentExpression.getVariableName())
+                if (variableName == currentExpression.getVariable().getVariableName())
                     i.remove();
             }
         } else if (currentExpression.getVariableType() == Expression.VARIABLE_ARRAY)
-            startStateLV.addAll(currentExpression.getUsedVariables());
+            currentExpression.getUsedVariables().forEach(x -> startStateLV.add(x.getVariableName()));
         liveVariables.get(currentExpression.getStartNode()).addAll(startStateLV);
     }
 

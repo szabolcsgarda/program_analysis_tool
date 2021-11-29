@@ -40,7 +40,7 @@ public class ReachingDefinitions extends Analysis {
             HashSet<ReachingDefinitionTriple> oldTriples = (HashSet<ReachingDefinitionTriple>)reachingDefinitions.get(currentExpression.getDestinationNode()).clone();
             switch(currentExpression.getClass().getSimpleName()) {
                 case "Assignment":
-                    dealWithAssignment((Assignment)currentExpression);
+                    dealWithAssignment((AssignmentExpression)currentExpression);
                     break;
                 case "VariableDeclaration":
                     dealWithDeclaration((VariableDeclaration)currentExpression);
@@ -72,7 +72,7 @@ public class ReachingDefinitions extends Analysis {
             Expression currentExpression = expressionQueue.poll();
             switch(currentExpression.getClass().getSimpleName()) {
                 case "Assignment":
-                    dealWithAssignment((Assignment)currentExpression);
+                    dealWithAssignment((AssignmentExpression)currentExpression);
                     break;
                 case "VariableDeclaration":
                     dealWithDeclaration((VariableDeclaration)currentExpression);
@@ -96,7 +96,7 @@ public class ReachingDefinitions extends Analysis {
     }
 
 
-    private void dealWithAssignment(Assignment currentExpression) {
+    private void dealWithAssignment(AssignmentExpression currentExpression) {
         HashSet<ReachingDefinitionTriple> startStateRD = (HashSet<ReachingDefinitionTriple>)reachingDefinitions.get(currentExpression.getStartNode()).clone();
         if (currentExpression.getVariableType() == Expression.VARIABLE_VARIABLE)
         {
@@ -150,12 +150,12 @@ public class ReachingDefinitions extends Analysis {
             for (Iterator<ReachingDefinitionTriple> i = startStateRD.iterator(); i.hasNext();)
             {
                 ReachingDefinitionTriple triple = i.next();
-                if (triple.variableName == currentExpression.getVariableName())
+                if (triple.variableName == currentExpression.getVariable().getVariableName())
                     i.remove();
             }
         }
         startStateRD.add(
-                new ReachingDefinitionTriple(currentExpression.getVariableName(),
+                new ReachingDefinitionTriple(currentExpression.getVariable().getVariableName(),
                         currentExpression.getStartNode(),
                         currentExpression.getDestinationNode()));
 

@@ -1,32 +1,36 @@
 package dtu.expressions;
 
+import dtu.syntaxTree.ArrayValue;
+import dtu.syntaxTree.Primitive;
+import dtu.syntaxTree.ReadArray;
+import dtu.syntaxTree.Variable;
+
 import java.util.HashSet;
 
 public class ReadOperation extends Expression{
 
-    private String variableName;
+    private Primitive variable;
     private int variableType;
     private HashSet<String> usedVariables = new HashSet<>();
 
-    public ReadOperation(String aId, String aName, String variableName)
+    public ReadOperation(String aId, String aName, Variable variable)
     {
         super();
-        this.variableName = variableName;
-        this.variableType = Expression.VARIABLE_VARIABLE;
+        this.variable = variable;
+        variableType = variable.getVariableType();
     }
 
-    public ReadOperation(String aId, String aName, String variableName, String accessedIndex)
+    public ReadOperation(String aId, String aName, ArrayValue variable)
     {
         super();
-        this.variableName = variableName;
-        this.variableType = Expression.VARIABLE_ARRAY;
-        this.usedVariables.add(accessedIndex);
+        this.variable = variable;
+        variableType = Expression.VARIABLE_ARRAY;
     }
 
     public int getVariableType() { return variableType;}
 
-    public String getVariableName() { return variableName;}
+    public Primitive getVariable() { return variable;}
 
-    public HashSet<String> getUsedVariables(){ return usedVariables;}
+    public HashSet<Variable> getUsedVariables(){ return variable.getUsedVariables();}
 
 }

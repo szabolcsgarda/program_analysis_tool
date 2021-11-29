@@ -1,5 +1,7 @@
 package dtu.syntaxTree;
 
+import java.util.HashSet;
+
 public class BooleanOperation extends BooleanEvaluation{
     public enum OpB {AND, OR, EQ, NEQ}
 
@@ -11,5 +13,12 @@ public class BooleanOperation extends BooleanEvaluation{
         this.booleanEvaluation1 = booleanEvaluation1;
         this.operation = operation;
         this.booleanEvaluation2 = booleanEvaluation2;
+    }
+
+    @Override
+    public HashSet<Variable> getUsedVariables() {
+        HashSet<Variable> usedVariables = (HashSet<Variable>)booleanEvaluation1.getUsedVariables().clone();
+        usedVariables.addAll(booleanEvaluation2.getUsedVariables());
+        return usedVariables;
     }
 }
