@@ -1,10 +1,10 @@
 package dtu;
 
 import dtu.analysisP.*;
+import dtu.experiments.Experiments;
 import dtu.expressions.Assignment;
 import dtu.expressions.BooleanEvaluation;
 import dtu.expressions.Expression;
-import dtu.expressions.VariableDeclaration;
 
 import java.util.*;
 
@@ -14,16 +14,21 @@ public class Main {
 		System.out.println("Initialization in progress");
 		//TODO: Place decent graph builder here
 
-		Queue<Expression> dummyExpressions = new ArrayDeque<>();
+		/*Queue<Expression> dummyExpressions = new ArrayDeque<>();
 		dummyExpressions.add(new Assignment("edge1","", "x", 0, 1, new HashSet<>()));
 		dummyExpressions.add(new Assignment("edge2","", "y", 1, 2, new HashSet<>()));
 		dummyExpressions.add(new BooleanEvaluation("edge3","", 2, 3, new HashSet<>(Arrays.asList("x"))));
 		dummyExpressions.add(new BooleanEvaluation("edge4","", 2, 4, new HashSet<>(Arrays.asList("x"))));
 		dummyExpressions.add(new Assignment("edge5","", "y", 4, 5, new HashSet<>(Arrays.asList("x", "y"))));
 		dummyExpressions.add(new Assignment("edge6","", "x", 5, 2, new HashSet<>(Arrays.asList("x"))));
-		dummyExpressions.add(new Assignment("edge7","", "x", 3, 6, new HashSet<>()));
+		dummyExpressions.add(new Assignment("edge7","", "x", 3, 6, new HashSet<>()));*/
 
-		ProgramGraph mProgramGraph = new ProgramGraph(7, dummyExpressions);
+		//ProgramGraph mProgramGraph = new ProgramGraph(7, dummyExpressions);
+
+		ProgramGraph mProgramGraph = Experiments.matrixTranspose();
+
+
+
 		ChaoticIteration chaoticIteration = new ChaoticIteration(mProgramGraph);
 		RoundRobin roundRobin = new RoundRobin(mProgramGraph);
 		SimpleWorklist firstInFirstOut = new SimpleWorklist(mProgramGraph, 0);
