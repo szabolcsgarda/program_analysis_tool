@@ -39,7 +39,7 @@ public class LiveVariables extends Analysis {
             }
             HashSet<String> oldLiveVariables = (HashSet<String>)liveVariables.get(currentExpression.getStartNode()).clone();
             switch(currentExpression.getClass().getSimpleName()) {
-                case "Assignment":
+                case "AssignmentExpression":
                     dealWithAssignment((AssignmentExpression)currentExpression);
                     break;
                 case "VariableDeclaration":
@@ -48,7 +48,7 @@ public class LiveVariables extends Analysis {
                 case "ReadOperation":
                     dealWithReadOperation((ReadOperation)currentExpression);
                     break;
-                case "BooleanEvaluation":
+                case "BooleanExpression":
                     dealWithBooleanEvaluation((BooleanExpression)currentExpression);
                     break;
                 default:

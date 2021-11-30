@@ -39,7 +39,7 @@ public class FaintVariables extends Analysis {
             }
             HashSet<String> oldFaintVariables = (HashSet<String>) faintVariables.get(currentExpression.getStartNode()).clone();
             switch(currentExpression.getClass().getSimpleName()) {
-                case "Assignment":
+                case "AssignmentExpression":
                     dealWithAssignment((AssignmentExpression)currentExpression);
                     break;
                 case "VariableDeclaration":
@@ -48,7 +48,7 @@ public class FaintVariables extends Analysis {
                 case "ReadOperation":
                     dealWithReadOperation((ReadOperation)currentExpression);
                     break;
-                case "BooleanEvaluation":
+                case "BooleanExpression":
                     dealWithBooleanEvaluation((BooleanExpression)currentExpression);
                     break;
                 default:
@@ -72,7 +72,7 @@ public class FaintVariables extends Analysis {
 
 
     private void dealWithAssignment(AssignmentExpression currentExpression) {
-        HashSet<String> startStateFV = (HashSet<String>) faintVariables.get(currentExpression.getDestinationNode()).clone();
+        HashSet<String> startStateFV = (HashSet<String>)faintVariables.get(currentExpression.getDestinationNode()).clone();
         boolean assigningToLiveVariable = startStateFV.contains(currentExpression.getVariableName());
         if (currentExpression.getVariableType() == Expression.VARIABLE_VARIABLE)
         {

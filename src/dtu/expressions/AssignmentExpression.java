@@ -4,6 +4,7 @@ import dtu.syntaxTree.ArrayValue;
 import dtu.syntaxTree.Assignment;
 import dtu.syntaxTree.Variable;
 
+import java.util.ArrayDeque;
 import java.util.HashSet;
 
 public class AssignmentExpression extends Expression{
@@ -45,11 +46,12 @@ public class AssignmentExpression extends Expression{
         switch (assignment.getVariable().getClass().getSimpleName())
         {
             case "Variable":
-                Variable v = (Variable)assignment.getVariable();
-                return v.getUsedVariables();
+                return assignment.getUsedVariables();
             case "ArrayValue":
-                ArrayValue a = (ArrayValue) assignment.getVariable();
-                return a.getUsedVariables();
+                HashSet<Variable> usedVariables = assignment.getUsedVariables();
+                ArrayValue a = (ArrayValue)assignment.getVariable();
+                usedVariables.addAll(a.getUsedVariables());
+                return usedVariables;
         }
         return new HashSet<>();
     }

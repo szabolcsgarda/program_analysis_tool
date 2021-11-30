@@ -39,7 +39,7 @@ public class ReachingDefinitions extends Analysis {
             }
             HashSet<ReachingDefinitionTriple> oldTriples = (HashSet<ReachingDefinitionTriple>)reachingDefinitions.get(currentExpression.getDestinationNode()).clone();
             switch(currentExpression.getClass().getSimpleName()) {
-                case "Assignment":
+                case "AssignmentExpression":
                     dealWithAssignment((AssignmentExpression)currentExpression);
                     break;
                 case "VariableDeclaration":
@@ -48,7 +48,7 @@ public class ReachingDefinitions extends Analysis {
                 case "ReadOperation":
                     dealWithReadOperation((ReadOperation)currentExpression);
                     break;
-                case "BooleanEvaluation":
+                case "BooleanExpression":
                     dealWithBooleanEvaluation((BooleanExpression)currentExpression);
                     break;
                 default:
@@ -61,33 +61,6 @@ public class ReachingDefinitions extends Analysis {
         }
         prettyPrint();
         return result;
-    }
-
-    public void run()
-    {
-        //AnalysisAssignment result = new SetOfTriples();
-
-        while (!expressionQueue.isEmpty())
-        {
-            Expression currentExpression = expressionQueue.poll();
-            switch(currentExpression.getClass().getSimpleName()) {
-                case "Assignment":
-                    dealWithAssignment((AssignmentExpression)currentExpression);
-                    break;
-                case "VariableDeclaration":
-                    dealWithDeclaration((VariableDeclaration)currentExpression);
-                    break;
-                case "ReadOperation":
-                    dealWithReadOperation((ReadOperation)currentExpression);
-                    break;
-                case "BooleanEvaluation":
-                    dealWithBooleanEvaluation((BooleanExpression)currentExpression);
-                    break;
-                default:
-                    break;
-            }
-        }
-        prettyPrint();
     }
 
     private void dealWithBooleanEvaluation(BooleanExpression currentExpression) {

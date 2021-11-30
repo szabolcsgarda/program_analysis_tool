@@ -15,7 +15,7 @@ public class Variable extends Primitive{
 
     @Override
     public HashSet<Variable> getUsedVariables() {
-        return new HashSet<>();
+        return new HashSet<Variable>(Arrays.asList(this));
     }
 
     public int getVariableType(){return Expression.VARIABLE_VARIABLE;}
