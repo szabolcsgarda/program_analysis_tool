@@ -30,6 +30,7 @@ public class SimpleWorklist extends WorkListAlgorithm{
     @Override
     public Expression getNextExpression()
     {
+        mIterationCounter++;
         Expression result = null;
         //int selectedNode = 0;
         int selectedEdge = 0;
@@ -91,5 +92,11 @@ public class SimpleWorklist extends WorkListAlgorithm{
     public void empty()
     {
 
+    }
+
+    @Override
+    public int getIterationNumber()
+    {
+        return mIterationCounter;
     }
 }

@@ -26,6 +26,7 @@ public class ChaoticIteration extends WorkListAlgorithm {
     @Override
     public Expression getNextExpression()
     {
+        mIterationCounter++;
         //Set up currentNode
         int randomNodeIndex = 0; // index of the selected node
         int randomEdgeIndex = 0; // index of the selected edge
@@ -81,5 +82,11 @@ public class ChaoticIteration extends WorkListAlgorithm {
     public void empty ()
     {
 
+    }
+
+    @Override
+    public int getIterationNumber()
+    {
+        return mIterationCounter;
     }
 }

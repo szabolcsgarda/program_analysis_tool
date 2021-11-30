@@ -32,6 +32,7 @@ public class RoundRobin extends WorkListAlgorithm {
     @Override
     public Expression getNextExpression()
     {
+        mIterationCounter++;
         int currentNode = -1;
         Expression result = null;
 
@@ -86,6 +87,12 @@ public class RoundRobin extends WorkListAlgorithm {
     public void empty ()
     {
 
+    }
+
+    @Override
+    public int getIterationNumber()
+    {
+        return mIterationCounter;
     }
 
     private int getNextNodeFromRP(HashMap<Integer, Integer> aRPIndexing, ArrayList<Integer> aWorklist)

@@ -60,7 +60,7 @@ public class LiveVariables extends Analysis {
                 mWorkListAlgorithm.feedbackChangedNodes(currentExpression.getStartNode());
             }
         }
-        prettyPrint();
+        //prettyPrint();
         return result;
     }
 

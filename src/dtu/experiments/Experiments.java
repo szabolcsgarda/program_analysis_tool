@@ -32,7 +32,7 @@ public class Experiments {
         }
     }
      */
-    static public ProgramGraph worklisttest1()
+    static public void worklisttest1(ProgramGraph aGraph)
     {
         int nodeNumber = 9;
 
@@ -48,7 +48,7 @@ public class Experiments {
         expressions.add(new Assignment("edge9","", "y", 6, 7, new HashSet<>(Arrays.asList("y"))));
         expressions.add(new Assignment("edge10","", "k", 7, 5, new HashSet<>(Arrays.asList("k","x","y"))));
 
-        return new ProgramGraph(nodeNumber, expressions);
+        aGraph = new ProgramGraph(nodeNumber, expressions);
     }
 
     // Example program with 3 nested loops:

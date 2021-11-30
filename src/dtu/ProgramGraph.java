@@ -5,6 +5,7 @@ import dtu.expressions.Expression;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Queue;
 
 public class ProgramGraph{
@@ -14,7 +15,8 @@ public class ProgramGraph{
     public ProgramGraph(int aNumberOfNodes, Queue<Expression> aExpressions)
     {
         mGraph = new String[aNumberOfNodes][aNumberOfNodes];
-        mExpressions = aExpressions;
+        mExpressions = new LinkedList<>();
+        mExpressions.addAll(aExpressions);
         generateGraph();
     }
 

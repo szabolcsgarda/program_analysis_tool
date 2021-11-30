@@ -52,8 +52,7 @@ public class DFS {
             currentNode ++;
         }
 
-
-        System.out.println("Program graph");
+        /*System.out.println("Program graph");
 
         for(int i = 0; i < mDfsTree.length; i++)
         {
@@ -79,7 +78,7 @@ public class DFS {
         for(int i = 0; i<mProgramGraphCopy.getNodeNumber(); i++)
         {
             System.out.println(i + "->" + mRpNumbering.get(i));
-        }
+        }*/
     }
 
     // Get Depth-First Spamming tree

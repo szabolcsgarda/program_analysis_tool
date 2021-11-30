@@ -6,6 +6,7 @@ import dtu.expressions.Expression;
 import java.util.ArrayList;
 
 public abstract class WorkListAlgorithm {
+    protected int mIterationCounter = 0;
     protected ProgramGraph mProgramGraphCopy;
     protected ArrayList<Integer> mUpdatedWorkList = new ArrayList<>();
 
@@ -16,4 +17,6 @@ public abstract class WorkListAlgorithm {
     public abstract void feedbackChangedNodes (int aChangedNodeAssignment);
 
     public abstract void empty();
+
+    public abstract int getIterationNumber();
 }
