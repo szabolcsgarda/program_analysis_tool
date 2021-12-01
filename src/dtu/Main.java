@@ -167,11 +167,11 @@ public class Main {
 		System.out.println("Running Reaching Definition tests using lifo and fifo WL");
 
 		//No prints during tests to avoid effect on execution times
-		/*testName.add("Program1 -> RD with FIFO");
+		testName.add("Program1 -> RD with FIFO");
 		startTime.add(System.nanoTime());
 		SimpleWorklist firstInFirstOut11 = new SimpleWorklist(mProgramGraphTest1,1);
 		ReachingDefinitions rd11 = new ReachingDefinitions(mProgramGraphTest1, firstInFirstOut11);
-		rd11.run();
+		rd11.runAnalysis();
 		endTime.add(System.nanoTime());
 		iterationNumber.add(firstInFirstOut11.getIterationNumber());
 
@@ -179,7 +179,7 @@ public class Main {
 		startTime.add(System.nanoTime());
 		SimpleWorklist lastInFirstOut11 = new SimpleWorklist(mProgramGraphTest1, 1);
 		ReachingDefinitions rd12 = new ReachingDefinitions(mProgramGraphTest1, lastInFirstOut11);
-		rd12.run();
+		rd12.runAnalysis();
 		endTime.add(System.nanoTime());
 		iterationNumber.add(lastInFirstOut11.getIterationNumber());
 
@@ -187,7 +187,7 @@ public class Main {
 		startTime.add(System.nanoTime());
 		SimpleWorklist firstInFirstOut12 = new SimpleWorklist(mProgramGraphTest2, 0);
 		ReachingDefinitions rd21 = new ReachingDefinitions(mProgramGraphTest2, firstInFirstOut12);
-		rd21.run();
+		rd21.runAnalysis();
 		endTime.add(System.nanoTime());
 		iterationNumber.add(firstInFirstOut12.getIterationNumber());
 
@@ -195,7 +195,7 @@ public class Main {
 		startTime.add(System.nanoTime());
 		SimpleWorklist lastInFirstOut12 = new SimpleWorklist(mProgramGraphTest2, 1);
 		ReachingDefinitions rd22 = new ReachingDefinitions(mProgramGraphTest2, lastInFirstOut12);
-		rd22.run();
+		rd22.runAnalysis();
 		endTime.add(System.nanoTime());
 		iterationNumber.add(lastInFirstOut12.getIterationNumber());
 
@@ -203,7 +203,7 @@ public class Main {
 		startTime.add(System.nanoTime());
 		SimpleWorklist firstInFirstOut13 = new SimpleWorklist(mProgramGraphTest3, 0);
 		ReachingDefinitions rd31 = new ReachingDefinitions(mProgramGraphTest3, firstInFirstOut13);
-		rd31.run();
+		rd31.runAnalysis();
 		endTime.add(System.nanoTime());
 		iterationNumber.add(firstInFirstOut13.getIterationNumber());
 
@@ -211,7 +211,7 @@ public class Main {
 		startTime.add(System.nanoTime());
 		SimpleWorklist lastInFirstOut13 = new SimpleWorklist(mProgramGraphTest3, 1);
 		ReachingDefinitions rd32 = new ReachingDefinitions(mProgramGraphTest3, lastInFirstOut13);
-		rd32.run();
+		rd32.runAnalysis();
 		endTime.add(System.nanoTime());
 		iterationNumber.add(lastInFirstOut13.getIterationNumber());
 
@@ -219,7 +219,7 @@ public class Main {
 		startTime.add(System.nanoTime());
 		SimpleWorklist firstInFirstOut14 = new SimpleWorklist(mProgramGraphTest4, 0);
 		ReachingDefinitions rd41 = new ReachingDefinitions(mProgramGraphTest4, firstInFirstOut14);
-		rd41.run();
+		rd41.runAnalysis();
 		endTime.add(System.nanoTime());
 		iterationNumber.add(firstInFirstOut14.getIterationNumber());
 
@@ -227,9 +227,9 @@ public class Main {
 		startTime.add(System.nanoTime());
 		SimpleWorklist lastInFirstOut14 = new SimpleWorklist(mProgramGraphTest4, 1);
 		ReachingDefinitions rd42 = new ReachingDefinitions(mProgramGraphTest4, lastInFirstOut14);
-		rd42.run();
+		rd42.runAnalysis();
 		endTime.add(System.nanoTime());
-		iterationNumber.add(lastInFirstOut14.getIterationNumber());*/
+		iterationNumber.add(lastInFirstOut14.getIterationNumber());
 
 
 
@@ -368,6 +368,233 @@ public class Main {
 		fv42.runAnalysis();
 		endTime.add(System.nanoTime());
 		iterationNumber.add(lastInFirstOut34.getIterationNumber());
+
+
+
+
+
+
+
+
+		System.out.println("Running tests for Reverse Postorder (meeting9)");
+
+		testName.add("Program1 -> LV with RP");
+		startTime.add(System.nanoTime());
+		RoundRobin rr1 = new RoundRobin(mProgramGraphTest1);
+		LiveVariables lv51 = new LiveVariables(mProgramGraphTest1, rr1);
+		lv51.runAnalysis();
+		endTime.add(System.nanoTime());
+		iterationNumber.add(rr1.getIterationNumber());
+
+
+		testName.add("Program2 -> LV with RP");
+		startTime.add(System.nanoTime());
+		RoundRobin rr2 = new RoundRobin(mProgramGraphTest2);
+		LiveVariables lv52 = new LiveVariables(mProgramGraphTest2, rr2);
+		lv52.runAnalysis();
+		endTime.add(System.nanoTime());
+		iterationNumber.add(rr2.getIterationNumber());
+
+		testName.add("Program3 -> LV with RP");
+		startTime.add(System.nanoTime());
+		RoundRobin rr3 = new RoundRobin(mProgramGraphTest3);
+		LiveVariables lv53 = new LiveVariables(mProgramGraphTest3, rr3);
+		lv53.runAnalysis();
+		endTime.add(System.nanoTime());
+		iterationNumber.add(rr3.getIterationNumber());
+
+
+		testName.add("Program4 -> LV with RP");
+		startTime.add(System.nanoTime());
+		RoundRobin rr4 = new RoundRobin(mProgramGraphTest4);
+		LiveVariables lv54 = new LiveVariables(mProgramGraphTest4, rr4);
+		lv54.runAnalysis();
+		endTime.add(System.nanoTime());
+		iterationNumber.add(rr4.getIterationNumber());
+
+
+		testName.add("Program1 -> FV with RP");
+		startTime.add(System.nanoTime());
+		RoundRobin rr5 = new RoundRobin(mProgramGraphTest1);
+		FaintVariables fv51 = new FaintVariables(mProgramGraphTest1, rr5);
+		fv51.runAnalysis();
+		endTime.add(System.nanoTime());
+		iterationNumber.add(rr5.getIterationNumber());
+
+
+		testName.add("Program2 -> FV with RP");
+		startTime.add(System.nanoTime());
+		RoundRobin rr6 = new RoundRobin(mProgramGraphTest2);
+		FaintVariables fv52 = new FaintVariables(mProgramGraphTest2, rr6);
+		fv52.runAnalysis();
+		endTime.add(System.nanoTime());
+		iterationNumber.add(rr6.getIterationNumber());
+
+		testName.add("Program3 -> FV with RP");
+		startTime.add(System.nanoTime());
+		RoundRobin rr7 = new RoundRobin(mProgramGraphTest3);
+		FaintVariables fv53 = new FaintVariables(mProgramGraphTest3, rr7);
+		fv53.runAnalysis();
+		endTime.add(System.nanoTime());
+		iterationNumber.add(rr7.getIterationNumber());
+
+		testName.add("Program4 -> FV with RP");
+		startTime.add(System.nanoTime());
+		RoundRobin rr8 = new RoundRobin(mProgramGraphTest4);
+		FaintVariables fv54 = new FaintVariables(mProgramGraphTest4, rr8);
+		fv54.runAnalysis();
+		endTime.add(System.nanoTime());
+		iterationNumber.add(rr8.getIterationNumber());
+
+
+
+		testName.add("Program1 -> RD with RP");
+		startTime.add(System.nanoTime());
+		RoundRobin rr9 = new RoundRobin(mProgramGraphTest1);
+		ReachingDefinitions rd51 = new ReachingDefinitions(mProgramGraphTest1, rr9);
+		rd51.runAnalysis();
+		endTime.add(System.nanoTime());
+		iterationNumber.add(rr9.getIterationNumber());
+
+
+		testName.add("Program2 -> RD with RP");
+		startTime.add(System.nanoTime());
+		RoundRobin rr10 = new RoundRobin(mProgramGraphTest2);
+		ReachingDefinitions rd52 = new ReachingDefinitions(mProgramGraphTest2, rr10);
+		rd52.runAnalysis();
+		endTime.add(System.nanoTime());
+		iterationNumber.add(rr10.getIterationNumber());
+
+		testName.add("Program3 -> RD with RP");
+		startTime.add(System.nanoTime());
+		RoundRobin rr11= new RoundRobin(mProgramGraphTest3);
+		ReachingDefinitions rd53 = new ReachingDefinitions(mProgramGraphTest3, rr11);
+		rd53.runAnalysis();
+		endTime.add(System.nanoTime());
+		iterationNumber.add(rr11.getIterationNumber());
+
+
+		testName.add("Program4 -> RD with RP");
+		startTime.add(System.nanoTime());
+		RoundRobin rr12 = new RoundRobin(mProgramGraphTest4);
+		ReachingDefinitions rd54 = new ReachingDefinitions(mProgramGraphTest4, rr12);
+		rd54.runAnalysis();
+		endTime.add(System.nanoTime());
+		iterationNumber.add(rr12.getIterationNumber());
+
+
+
+
+
+
+
+
+
+		System.out.println("Running tests for Chaotic Iteration (CI)(meeting9)");
+
+		testName.add("Program1 -> LV with CI");
+		startTime.add(System.nanoTime());
+		ChaoticIteration ci1 = new ChaoticIteration(mProgramGraphTest1);
+		LiveVariables lv61 = new LiveVariables(mProgramGraphTest1, ci1);
+		lv61.runAnalysis();
+		endTime.add(System.nanoTime());
+		iterationNumber.add(ci1.getIterationNumber());
+
+
+		testName.add("Program2 -> LV with CI");
+		startTime.add(System.nanoTime());
+		ChaoticIteration ci2 = new ChaoticIteration(mProgramGraphTest2);
+		LiveVariables lv62 = new LiveVariables(mProgramGraphTest2, ci2);
+		lv62.runAnalysis();
+		endTime.add(System.nanoTime());
+		iterationNumber.add(ci2.getIterationNumber());
+
+		testName.add("Program3 -> LV with CI");
+		startTime.add(System.nanoTime());
+		ChaoticIteration ci3 = new ChaoticIteration(mProgramGraphTest3);
+		LiveVariables lv63 = new LiveVariables(mProgramGraphTest3, ci3);
+		lv53.runAnalysis();
+		endTime.add(System.nanoTime());
+		iterationNumber.add(ci3.getIterationNumber());
+
+
+		testName.add("Program4 -> LV with CI");
+		startTime.add(System.nanoTime());
+		ChaoticIteration ci4 = new ChaoticIteration(mProgramGraphTest4);
+		LiveVariables lv64 = new LiveVariables(mProgramGraphTest4, ci4);
+		lv64.runAnalysis();
+		endTime.add(System.nanoTime());
+		iterationNumber.add(ci4.getIterationNumber());
+
+
+		testName.add("Program1 -> FV with CI");
+		startTime.add(System.nanoTime());
+		ChaoticIteration ci5 = new ChaoticIteration(mProgramGraphTest1);
+		FaintVariables fv61 = new FaintVariables(mProgramGraphTest1, ci5);
+		fv61.runAnalysis();
+		endTime.add(System.nanoTime());
+		iterationNumber.add(ci5.getIterationNumber());
+
+
+		testName.add("Program2 -> FV with CI");
+		startTime.add(System.nanoTime());
+		ChaoticIteration ci6 = new ChaoticIteration(mProgramGraphTest2);
+		FaintVariables fv62 = new FaintVariables(mProgramGraphTest2, ci6);
+		fv62.runAnalysis();
+		endTime.add(System.nanoTime());
+		iterationNumber.add(ci6.getIterationNumber());
+
+		testName.add("Program3 -> FV with CI");
+		startTime.add(System.nanoTime());
+		ChaoticIteration ci7 = new ChaoticIteration(mProgramGraphTest3);
+		FaintVariables fv63 = new FaintVariables(mProgramGraphTest3, ci7);
+		fv63.runAnalysis();
+		endTime.add(System.nanoTime());
+		iterationNumber.add(ci7.getIterationNumber());
+
+		testName.add("Program4 -> FV with CI");
+		startTime.add(System.nanoTime());
+		ChaoticIteration ci8 = new ChaoticIteration(mProgramGraphTest4);
+		FaintVariables fv64 = new FaintVariables(mProgramGraphTest4, ci8);
+		fv64.runAnalysis();
+		endTime.add(System.nanoTime());
+		iterationNumber.add(ci8.getIterationNumber());
+
+
+
+		testName.add("Program1 -> RD with CI");
+		startTime.add(System.nanoTime());
+		ChaoticIteration ci9 = new ChaoticIteration(mProgramGraphTest1);
+		ReachingDefinitions rd61 = new ReachingDefinitions(mProgramGraphTest1, ci9);
+		rd61.runAnalysis();
+		endTime.add(System.nanoTime());
+		iterationNumber.add(ci9.getIterationNumber());
+
+
+		testName.add("Program2 -> RD with CI");
+		startTime.add(System.nanoTime());
+		ChaoticIteration ci10 = new ChaoticIteration(mProgramGraphTest2);
+		ReachingDefinitions rd62 = new ReachingDefinitions(mProgramGraphTest2, ci10);
+		rd62.runAnalysis();
+		endTime.add(System.nanoTime());
+		iterationNumber.add(ci10.getIterationNumber());
+
+		testName.add("Program3 -> RD with CI");
+		startTime.add(System.nanoTime());
+		ChaoticIteration ci11= new ChaoticIteration(mProgramGraphTest3);
+		ReachingDefinitions rd63 = new ReachingDefinitions(mProgramGraphTest3, ci11);
+		rd63.runAnalysis();
+		endTime.add(System.nanoTime());
+		iterationNumber.add(ci11.getIterationNumber());
+
+
+		testName.add("Program4 -> RD with CI");
+		startTime.add(System.nanoTime());
+		ChaoticIteration ci12 = new ChaoticIteration(mProgramGraphTest4);
+		ReachingDefinitions rd64 = new ReachingDefinitions(mProgramGraphTest4, ci12);
+		rd64.runAnalysis();
+		endTime.add(System.nanoTime());
+		iterationNumber.add(ci12.getIterationNumber());
 
 
 		for(int i=0;i<testName.size();i++)

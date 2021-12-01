@@ -59,7 +59,7 @@ public class ReachingDefinitions extends Analysis {
                 mWorkListAlgorithm.feedbackChangedNodes(currentExpression.getDestinationNode());
             }
         }
-        prettyPrint();
+        //prettyPrint();
         return result;
     }
 

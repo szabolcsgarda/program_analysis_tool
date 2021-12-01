@@ -3,10 +3,7 @@ package dtu;
 import dtu.analysisP.ReachingDefinitions;
 import dtu.expressions.Expression;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 public class ProgramGraph{
     private Queue<Expression> mExpressions ;
@@ -89,6 +86,11 @@ public class ProgramGraph{
     public void prettyPrint()
     {
 
+    }
+
+    public Queue<Expression> getExpressions()
+    {
+        return mExpressions;
     }
 
 }
