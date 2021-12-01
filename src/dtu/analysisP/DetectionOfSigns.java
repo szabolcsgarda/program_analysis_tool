@@ -3,6 +3,9 @@ package dtu.analysisP;
 import dtu.ProgramGraph;
 import dtu.auxiliary.AnalysisAssignment;
 import dtu.expressions.*;
+import dtu.syntaxTree.BooleanOperation;
+import dtu.syntaxTree.IntegerEvaluation;
+import dtu.syntaxTree.Primitive;
 import dtu.syntaxTree.Variable;
 
 import java.util.*;
@@ -61,7 +64,7 @@ public class DetectionOfSigns extends Analysis{
                 default:
                     break;
             }
-            if(!oldRecords.equals(detectionOfSigns.get(currentExpression.getDestinationNode()))) //TODO not stopping
+            if(!oldRecords.equals(detectionOfSigns.get(currentExpression.getDestinationNode())))
             {
                 mWorkListAlgorithm.feedbackChangedNodes(currentExpression.getDestinationNode());
             }
@@ -71,13 +74,47 @@ public class DetectionOfSigns extends Analysis{
     }
 
     private void dealWithBooleanEvaluation(BooleanExpression currentExpression) {
-        HashMap<String, HashSet<Sign>> startStateDS = (HashMap<String, HashSet<Sign>>)detectionOfSigns.get(currentExpression.getStartNode()).clone();
+        HashMap<String, HashSet<Sign>> startStateDS = deepMapCopy(detectionOfSigns.get(currentExpression.getStartNode()));
         HashMap<String, HashSet<Sign>> currentStateDS = (HashMap<String, HashSet<Sign>>)detectionOfSigns.get(currentExpression.getDestinationNode()).clone();
+        if (currentExpression.getEvaluation().getClass().getSimpleName().equals("BooleanOperation"))
+        {
+            BooleanOperation castedParent = (BooleanOperation)currentExpression.getEvaluation();
+            if (castedParent.booleanEvaluation1.getClass().getSimpleName().equals("IntegerEvaluation"))
+            {
+                IntegerEvaluation castedCurr = (IntegerEvaluation)castedParent.booleanEvaluation1;
+                if (castedCurr.value1.getClass().getSimpleName().equals("Variable")) {
+                    Variable castedVar = (Variable)castedCurr.value1;
+                    HashSet<Sign> signFilter = castedCurr.Aboolean(startStateDS);
+                    if (startStateDS.containsKey(castedVar.getVariableName()))
+                        startStateDS.get(castedVar.getVariableName()).retainAll(signFilter);
+                }
+            }
+            if (castedParent.booleanEvaluation2.getClass().getSimpleName().equals("IntegerEvaluation"))
+            {
+                IntegerEvaluation castedCurr = (IntegerEvaluation)castedParent.booleanEvaluation2;
+                if (castedCurr.value1.getClass().getSimpleName().equals("Variable")) {
+                    Variable castedVar = (Variable)castedCurr.value1;
+                    HashSet<Sign> signFilter = castedCurr.Aboolean(startStateDS);
+                    if (startStateDS.containsKey(castedVar.getVariableName()))
+                        startStateDS.get(castedVar.getVariableName()).retainAll(signFilter);
+                }
+            }
+        }
+        if (currentExpression.getEvaluation().getClass().getSimpleName().equals("IntegerEvaluation"))
+        {
+            IntegerEvaluation castedCurr = (IntegerEvaluation)currentExpression.getEvaluation();
+            if (castedCurr.value1.getClass().getSimpleName().equals("Variable")) {
+                Variable castedVar = (Variable)castedCurr.value1;
+                HashSet<Sign> signFilter = castedCurr.Aboolean(startStateDS);
+                if (startStateDS.containsKey(castedVar.getVariableName()))
+                    startStateDS.get(castedVar.getVariableName()).retainAll(signFilter);
+            }
+        }
         for (Map.Entry<String, HashSet<Sign>> startE: startStateDS.entrySet())
         {
             if (currentStateDS.containsKey(startE.getKey()))
             {
-                currentStateDS.get(startE.getKey()).addAll(startE.getValue());
+                if (currentStateDS.get(startE.getKey()).addAll(startE.getValue()));
             }
             else currentStateDS.put(startE.getKey(), startE.getValue());
         }
@@ -158,6 +195,21 @@ public class DetectionOfSigns extends Analysis{
             }
             System.out.println(l);
         }
+    }
+
+    private HashMap<String, HashSet<Sign>> deepMapCopy(HashMap<String, HashSet<Sign>> original)
+    {
+        HashMap<String, HashSet<Sign>> copy = new HashMap<>();
+        for (Map.Entry<String, HashSet<Sign>> entry: original.entrySet())
+        {
+            HashSet<Sign> copyValue = new HashSet<>();
+            for (Sign s: entry.getValue())
+            {
+                copyValue.add(s);
+            }
+            copy.put(entry.getKey(), copyValue);
+        }
+        return copy;
     }
 }
 

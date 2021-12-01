@@ -80,7 +80,7 @@ public class Main {
 		dummyExpressions.add(new BooleanExpression("edge1","", 0, 1, new BooleanOperation(
 				new IntegerEvaluation(new Variable("x"), IntegerEvaluation.OpI.GTE, new ConstantValue(0)),
 				BooleanOperation.OpB.AND,
-				new IntegerEvaluation(new Variable("y"), IntegerEvaluation.OpI.GTE, new ConstantValue(0)))));
+				new IntegerEvaluation(new Variable("y"), IntegerEvaluation.OpI.GT, new ConstantValue(0)))));
 		dummyExpressions.add(new AssignmentExpression("edge2","",  1, 2, new Assignment(new Variable("q"), new ConstantValue(0))));
 		dummyExpressions.add(new AssignmentExpression("edge3","", 2, 3, new Assignment(new Variable("r"), new Variable("x"))));
 		dummyExpressions.add(new BooleanExpression("edge4","", 3, 4, new IntegerEvaluation(new Variable("r"), IntegerEvaluation.OpI.GTE, new Variable("y"))));

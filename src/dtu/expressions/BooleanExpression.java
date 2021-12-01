@@ -16,4 +16,6 @@ public class BooleanExpression extends Expression{
     }
 
     public HashSet<Variable> getUsedVariables(){ return evaluation.getUsedVariables();}
+
+    public BooleanEvaluation getEvaluation() {return evaluation;}
 }
