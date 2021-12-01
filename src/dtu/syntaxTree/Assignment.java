@@ -1,5 +1,8 @@
 package dtu.syntaxTree;
 
+import dtu.analysisP.DetectionOfSigns;
+
+import java.util.HashMap;
 import java.util.HashSet;
 
 public class Assignment extends Statement{
@@ -18,5 +21,10 @@ public class Assignment extends Statement{
 
     public Primitive getVariable() {
         return variable;
+    }
+
+    public HashSet<DetectionOfSigns.Sign> aExp(HashMap<String, HashSet<DetectionOfSigns.Sign>> currentState)
+    {
+        return value.aExp(currentState);
     }
 }

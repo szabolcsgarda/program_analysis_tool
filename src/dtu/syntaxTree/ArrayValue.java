@@ -1,6 +1,9 @@
 package dtu.syntaxTree;
 
+import dtu.analysisP.DetectionOfSigns;
+
 import java.lang.reflect.Array;
+import java.util.HashMap;
 import java.util.HashSet;
 
 public class ArrayValue extends Primitive{
@@ -20,5 +23,10 @@ public class ArrayValue extends Primitive{
     @Override
     public String getVariableName() {
         return array.getVariableName();
+    }
+
+    @Override
+    public HashSet<DetectionOfSigns.Sign> aExp(HashMap<String, HashSet<DetectionOfSigns.Sign>> currentState) {
+        return currentState.get(array.getVariableName());
     }
 }

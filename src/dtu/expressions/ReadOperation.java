@@ -31,6 +31,8 @@ public class ReadOperation extends Expression{
 
     public Primitive getVariable() { return variable;}
 
+    public String getVariableName() { return variable.getVariableName();}
+
     public HashSet<Variable> getUsedVariables(){ return variable.getUsedVariables();}
 
 }

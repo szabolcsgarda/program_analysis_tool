@@ -1,10 +1,12 @@
 package dtu.expressions;
 
+import dtu.analysisP.DetectionOfSigns;
 import dtu.syntaxTree.ArrayValue;
 import dtu.syntaxTree.Assignment;
 import dtu.syntaxTree.Variable;
 
 import java.util.ArrayDeque;
+import java.util.HashMap;
 import java.util.HashSet;
 
 public class AssignmentExpression extends Expression{
@@ -54,6 +56,11 @@ public class AssignmentExpression extends Expression{
                 return usedVariables;
         }
         return new HashSet<>();
+    }
+
+    public HashSet<DetectionOfSigns.Sign> aExp(HashMap<String, HashSet<DetectionOfSigns.Sign>> currentState)
+    {
+        return assignment.aExp(currentState);
     }
 
 }

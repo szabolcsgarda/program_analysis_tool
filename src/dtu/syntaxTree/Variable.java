@@ -1,8 +1,10 @@
 package dtu.syntaxTree;
 
+import dtu.analysisP.DetectionOfSigns;
 import dtu.expressions.Expression;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 
 public class Variable extends Primitive{
@@ -21,4 +23,11 @@ public class Variable extends Primitive{
     public int getVariableType(){return Expression.VARIABLE_VARIABLE;}
 
     public String getVariableName(){return variableName;}
+
+    @Override
+    public HashSet<DetectionOfSigns.Sign> aExp(HashMap<String, HashSet<DetectionOfSigns.Sign>> currentState) {
+        if (currentState.containsKey(variableName))
+            return currentState.get(variableName);
+        return new HashSet<>();
+    }
 }

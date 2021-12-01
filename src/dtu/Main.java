@@ -68,6 +68,7 @@ public class Main {
 		endTime = System.currentTimeMillis();
 		System.out.println("Execution time:" + (endTime-startTime) + " [ms]");
 
+
 		liveVariableExample();
 
 	}
@@ -89,6 +90,7 @@ public class Main {
 
 
 		ProgramGraph mProgramGraph = new ProgramGraph(7, dummyExpressions);
+		String[] variables = {"q", "r", "x", "y"};
 
 		LiveVariables lv = new LiveVariables(mProgramGraph, new RoundRobin(mProgramGraph));
 		System.out.println("Live Variables using Round Robin");
@@ -101,6 +103,13 @@ public class Main {
 		System.out.println("Faint Variables using Round Robin");
 		startTime = System.currentTimeMillis();
 		fv.runAnalysis();
+		endTime = System.currentTimeMillis();
+		System.out.println("Execution time:" + (endTime-startTime) + " [ms]");
+
+		System.out.println("Detection of Signs using Round Robin");
+		DetectionOfSigns ds = new DetectionOfSigns(mProgramGraph, new RoundRobin(mProgramGraph), variables);
+		startTime = System.currentTimeMillis();
+		ds.runAnalysis();
 		endTime = System.currentTimeMillis();
 		System.out.println("Execution time:" + (endTime-startTime) + " [ms]");
 	}
